@@ -5,31 +5,12 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: subpark <subpark@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/11/06 23:04:45 by siun              #+#    #+#             */
-/*   Updated: 2023/11/10 12:19:47 by subpark          ###   ########.fr       */
+/*   Created: 2024/02/14 16:26:08 by subpark           #+#    #+#             */
+/*   Updated: 2024/02/14 16:26:55 by subpark          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
-
-int	ft_memcmp(const void *s1, const void *s2, size_t n)
-{
-	const unsigned char	*str1;
-	const unsigned char	*str2;
-	size_t				index;
-
-	str1 = s1;
-	str2 = s2;
-	index = 0;
-	while (index < n)
-	{
-		if (*(str1 + index) == *(str2 + index))
-			index ++;
-		else
-			return (str1[index] - str2[index]);
-	}
-	return (0);
-}
 
 int	spc(char c)
 {
