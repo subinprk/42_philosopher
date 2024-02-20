@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: siun <siun@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: subpark <subpark@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 16:07:20 by subpark           #+#    #+#             */
-/*   Updated: 2024/02/16 16:17:45 by siun             ###   ########.fr       */
+/*   Updated: 2024/02/20 14:51:02 by subpark          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,14 +31,14 @@
 
 typedef struct s_arg
 {
-	pthread_mutex_t food;
+	pthread_mutex_t	food;
 	pthread_mutex_t	print_mu;
 	int				num_of_philo;
 	long long		time_to_die;
 	long long		time_to_eat;
 	long long		time_to_sleep;
 	int				num_to_eat;
-} t_arg;
+}	t_arg;
 
 typedef struct s_philo
 {
@@ -51,11 +51,11 @@ typedef struct s_philo
 	int				num_of_eat;
 	int				state;
 	t_arg			*arg;
-} t_philo;
+}	t_philo;
 
 int		ft_atoi(const char *nptr);
 char	*ft_itoa(int n);
-size_t	get_current_time();
+size_t	get_current_time(void);
 int		ft_strlen(char *str);
 int		init_arg(int argc, char **argv, t_arg *arg);
 int		generate_philo(t_philo **philo, t_arg arg);

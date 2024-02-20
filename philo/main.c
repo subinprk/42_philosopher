@@ -6,13 +6,13 @@
 /*   By: subpark <subpark@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 16:18:03 by subpark           #+#    #+#             */
-/*   Updated: 2024/02/20 13:55:20 by subpark          ###   ########.fr       */
+/*   Updated: 2024/02/20 15:54:51 by subpark          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-int main(int argc, char **argv)
+int	main(int argc, char **argv)
 {
 	t_philo	*philo;
 	t_arg	arg;
@@ -29,7 +29,7 @@ int main(int argc, char **argv)
 	philosopher_result = philosopher(&philo, arg);
 	if (philosopher_result == -1)
 		return (1);
-	else if	(philosopher_result == 0)
+	else if (philosopher_result == 0)
 		philo_dead(&philo, arg);
 	else
 		philo_end(&philo, arg);
