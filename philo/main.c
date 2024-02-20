@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: siun <siun@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: subpark <subpark@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 16:18:03 by subpark           #+#    #+#             */
-/*   Updated: 2024/02/16 16:42:35 by siun             ###   ########.fr       */
+/*   Updated: 2024/02/20 13:55:20 by subpark          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int main(int argc, char **argv)
 		return (1);
 	if (!generate_philo(&philo, arg))
 		return (1);
-	if (!generate_chopstick(&philo, arg));
+	if (!generate_chopstick(&philo, arg))
 		return (1);
 	philosopher_result = philosopher(&philo, arg);
 	if (philosopher_result == -1)

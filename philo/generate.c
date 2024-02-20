@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   generate.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: siun <siun@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: subpark <subpark@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 22:23:35 by siun              #+#    #+#             */
-/*   Updated: 2024/02/18 16:21:26 by siun             ###   ########.fr       */
+/*   Updated: 2024/02/20 14:44:04 by subpark          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,16 +20,16 @@ int	generate_chopstick(t_philo **philo, t_arg arg)
 	i = 0;
 	while (i < arg.num_of_philo)
 	{
-		philo[i]->r_chopstick = malloc(sizeof(pthread_mutex_t));
-		if (!philo[i]->r_chopstick)
+		(*philo)[i].r_chopstick = malloc(sizeof(pthread_mutex_t));
+		if (!(*philo)[i].r_chopstick)
 			return (0);	
-		pthread_mutex_init(philo[i]->r_chopstick, NULL);
+		pthread_mutex_init((*philo)[i].r_chopstick, NULL);
 		i ++;
 	}
 	i = 0;
 	while (i < arg.num_of_philo)
 	{
-		philo[i]->l_chopstick = philo[(i + 1) % arg.num_of_philo]->r_chopstick;
+		(*philo)[i].l_chopstick = ((*philo)[(i + 1) % arg.num_of_philo]).r_chopstick;
 		i ++;
 	}
 	return (1);
@@ -39,26 +39,23 @@ int	generate_philo(t_philo **philo, t_arg arg)
 {
 	int	i;
 
-	philo = malloc(sizeof(t_philo *) * arg.num_of_philo);
-	if (!philo)
+	*philo = malloc(sizeof(t_philo) * arg.num_of_philo);
+	if (!*philo)
 		return (1);
 	i = 0;
 	while (i < arg.num_of_philo)
 	{
-		philo[i] = malloc(sizeof(t_philo));
-		if (!philo[i])
-			return (0);
-		memset(philo[i], 0, sizeof(t_philo));
-		philo[i]->arg = &arg;
-		philo[i]->state = S_GEN;
-		philo[i]->start_time = get_current_time(); //maybe with pthread_create()
-		philo[i]->last_time_eat = 0;
-		philo[i]->index = i;
+		(*philo)[i] = (t_philo){0};
+		(*philo)[i].arg = &arg;
+		(*philo)[i].state = S_GEN;
+		(*philo)[i].start_time = get_current_time(); //maybe with pthread_create()
+		(*philo)[i].last_time_eat = 0;
+		(*philo)[i].index = i;
 		//philo[i] = pthread_create()
 		i ++;
 	}
-	if (!generate_chopstick(philo, arg))
-		return (0);
+	// if (!generate_chopstick(philo, arg))
+	// 	return (0);
 	return (1);
 }
 

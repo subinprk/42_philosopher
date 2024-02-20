@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philosopher.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: siun <siun@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: subpark <subpark@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 22:23:45 by siun              #+#    #+#             */
-/*   Updated: 2024/02/16 15:27:59 by siun             ###   ########.fr       */
+/*   Updated: 2024/02/20 14:44:42 by subpark          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ int philo_eat(t_philo *philo_i, t_arg arg)
 	pthread_mutex_unlock(philo_i->l_chopstick);
 	pthread_mutex_unlock(philo_i->r_chopstick);
 	philo_i->last_time_eat = philo_i->last_time_eat + arg.time_to_eat;
+	return (1);
 }
 
 int philosopher(t_philo **philo, t_arg arg)
