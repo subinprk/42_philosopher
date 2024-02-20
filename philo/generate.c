@@ -6,7 +6,7 @@
 /*   By: siun <siun@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 22:23:35 by siun              #+#    #+#             */
-/*   Updated: 2024/02/14 23:02:53 by siun             ###   ########.fr       */
+/*   Updated: 2024/02/18 16:21:26 by siun             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,8 @@ int	generate_chopstick(t_philo **philo, t_arg arg)
 	{
 		philo[i]->r_chopstick = malloc(sizeof(pthread_mutex_t));
 		if (!philo[i]->r_chopstick)
-			return (0);
-		pthread_mutex_init(philo[i]->l_chopstick, NULL);
+			return (0);	
+		pthread_mutex_init(philo[i]->r_chopstick, NULL);
 		i ++;
 	}
 	i = 0;
@@ -67,7 +67,7 @@ int	generate_print_mu(pthread_mutex_t *print_mu)
 	print_mu = malloc(sizeof(pthread_mutex_t));
 	if (!print_mu)
 		return (0);
-	if (!pthread_mutex_init(print_mu, NULL))
+	if (pthread_mutex_init(print_mu, NULL))
 		return (0);
 	return (1);
 }

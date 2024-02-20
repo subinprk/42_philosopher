@@ -6,13 +6,44 @@
 /*   By: siun <siun@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 15:13:30 by subpark           #+#    #+#             */
-/*   Updated: 2024/02/14 22:22:52 by siun             ###   ########.fr       */
+/*   Updated: 2024/02/16 16:02:17 by siun             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 //#include <stdio.h>
 
 #include "philo.h"
+
+size_t	ft_strlcpy(char *dst, const char *src, size_t size)
+{
+	size_t	index;
+
+	index = 0;
+	if (size <= 0)
+		return (ft_strlen((char *)src));
+	while (index < size - 1 && src[index] != 0)
+	{
+		dst[index] = src[index];
+		index ++;
+	}
+	dst[index] = 0;
+	return (ft_strlen((char *)src));
+}
+
+void	ft_bzero(void *s, size_t n)
+{
+	unsigned char	*str;
+	size_t			index;
+
+	str = s;
+	index = 0;
+	while (index < n)
+	{
+		*(str + index) = 0;
+		index ++;
+	}
+	return ;
+}
 
 int	tool4size(int n, int count)
 {

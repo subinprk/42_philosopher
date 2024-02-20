@@ -6,7 +6,7 @@
 /*   By: siun <siun@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 22:23:45 by siun              #+#    #+#             */
-/*   Updated: 2024/02/14 23:49:42 by siun             ###   ########.fr       */
+/*   Updated: 2024/02/16 15:27:59 by siun             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,19 +48,31 @@ int philo_eat(t_philo *philo_i, t_arg arg)
 	philo_i->last_time_eat = philo_i->last_time_eat + arg.time_to_eat;
 }
 
-int philosopher(t_philo *philo_i, t_arg arg)
+int philosopher(t_philo **philo, t_arg arg)
 {
-	while (1)
+	int	i;
+
+	i = 0;
+	while (i < arg.num_of_philo)
 	{
-		philo_eat(philo_i, arg);
-		philo_sleep(philo_i, arg);
-		if (!philo_think(philo_i, arg))
+		while (1)
 		{
-			action_print(philo_i, arg, "is died");
-			return (0);//make thread mdetach | merged?
+			philo_eat(philo[i], arg);
+			philo_sleep(philo[i], arg);
+			if (philo[i]->num_of_eat == arg.num_to_eat)
+			{
+				philo_end(philo, arg);
+				return (1);//make thread merged
+			}
+			if (!philo_think(philo[i], arg))
+			{
+				philo_dead(philo, arg);
+				action_print(philo[i], arg, "is died");
+				return (0);//make thread mdetach | merged?
+			}
 		}
-		if (philo_i->num_of_eat == arg.num_to_eat)
-			return (1);//make thread merged
+		philo_error_freeing(philo, arg);
+		return (-1);
 	}
-	return (-1);
+	return (1);
 }

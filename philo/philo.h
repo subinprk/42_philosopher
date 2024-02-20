@@ -6,7 +6,7 @@
 /*   By: siun <siun@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 16:07:20 by subpark           #+#    #+#             */
-/*   Updated: 2024/02/14 23:04:08 by siun             ###   ########.fr       */
+/*   Updated: 2024/02/16 16:17:45 by siun             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,11 +23,11 @@
 # include <semaphore.h>
 # include <errno.h>
 
-# define S_GEN = 0
-# define S_EAT = 1
-# define S_SLEEP = 2
-# define S_THINK = 3
-# define S_DEAD = 4
+# define S_GEN 0
+# define S_EAT 1
+# define S_SLEEP 2
+# define S_THINK 3
+# define S_DEAD 4
 
 typedef struct s_arg
 {
@@ -59,5 +59,10 @@ size_t	get_current_time();
 int		ft_strlen(char *str);
 int		init_arg(int argc, char **argv, t_arg *arg);
 int		generate_philo(t_philo **philo, t_arg arg);
-
+int		generate_chopstick(t_philo **philo, t_arg arg);
+int		philosopher(t_philo **philo, t_arg arg);
+void	philo_error_freeing(t_philo **philo, t_arg arg);
+void	one_philo_free(t_philo *philo_i);
+void	philo_dead(t_philo **philo, t_arg arg);
+void	philo_end(t_philo **philo, t_arg arg);
 #endif
