@@ -6,7 +6,7 @@
 /*   By: subpark <subpark@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 22:23:35 by siun              #+#    #+#             */
-/*   Updated: 2024/02/20 14:49:47 by subpark          ###   ########.fr       */
+/*   Updated: 2024/02/21 14:23:41 by subpark          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,9 +49,24 @@ int	generate_philo(t_philo **philo, t_arg arg)
 		(*philo)[i] = (t_philo){0};
 		(*philo)[i].arg = &arg;
 		(*philo)[i].state = S_GEN;
-		(*philo)[i].start_time = get_current_time();
+
 		(*philo)[i].last_time_eat = 0;
 		(*philo)[i].index = i;
+		i ++;
+	}
+	return (1);
+}
+
+int	thread_create(t_philo **philo, t_arg arg)
+{
+	int	i;
+
+	i = 0;
+	while (i < arg.num_of_philo)
+	{
+		(*philo)[i].start_time = get_current_time();
+		if (pthread_create(&(*philo)[i].thread, NULL, &philosopher, &(*philo)[i]))
+			return (0);
 		i ++;
 	}
 	return (1);

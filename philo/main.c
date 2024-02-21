@@ -6,7 +6,7 @@
 /*   By: subpark <subpark@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 16:18:03 by subpark           #+#    #+#             */
-/*   Updated: 2024/02/20 15:54:51 by subpark          ###   ########.fr       */
+/*   Updated: 2024/02/21 14:09:37 by subpark          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@ int	main(int argc, char **argv)
 {
 	t_philo	*philo;
 	t_arg	arg;
-	int		philosopher_result;
 
 	if (argc != 5 && argc != 6)
 		return (1);
@@ -26,12 +25,7 @@ int	main(int argc, char **argv)
 		return (1);
 	if (!generate_chopstick(&philo, arg))
 		return (1);
-	philosopher_result = philosopher(&philo, arg);
-	if (philosopher_result == -1)
+	if (!thread_create(&philo, arg))
 		return (1);
-	else if (philosopher_result == 0)
-		philo_dead(&philo, arg);
-	else
-		philo_end(&philo, arg);
 	return (0);
 }
