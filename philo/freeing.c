@@ -6,7 +6,7 @@
 /*   By: subpark <subpark@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/16 14:23:15 by siun              #+#    #+#             */
-/*   Updated: 2024/02/21 14:50:22 by subpark          ###   ########.fr       */
+/*   Updated: 2024/02/21 18:22:20 by subpark          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,5 +55,16 @@ void	philo_end(t_philo **philo, t_arg arg)
 //thread detach? join?
 		one_philo_free(philo[i]);
 		i ++;
+	}
+}
+
+check_finishing(t_philo *philo, t_arg arg)
+{
+	int			i;
+	long long	curr_time;
+
+	while (philo->num_of_eat < arg.num_to_eat)
+	{
+		
 	}
 }

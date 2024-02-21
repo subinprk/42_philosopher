@@ -6,7 +6,7 @@
 /*   By: subpark <subpark@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 22:23:45 by siun              #+#    #+#             */
-/*   Updated: 2024/02/21 15:26:12 by subpark          ###   ########.fr       */
+/*   Updated: 2024/02/21 18:14:46 by subpark          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,13 +46,14 @@ int philo_eat(t_philo *philo_i, t_arg arg)
 	pthread_mutex_lock(philo_i->r_chopstick);
 	action_print(philo_i, arg, "has taken a fork");
 	action_print(philo_i, arg, "is eating");
+	usleep(arg.time_to_eat * 1000);
 	pthread_mutex_unlock(philo_i->l_chopstick);
 	pthread_mutex_unlock(philo_i->r_chopstick);
 	philo_i->last_time_eat = philo_i->last_time_eat + arg.time_to_eat;
 	return (1);
 }
 
-void	philosopher(t_philo *philo_i)
+void	*philosopher(t_philo *philo_i)
 {
 	int	i;
 	t_arg *arg;
@@ -67,16 +68,14 @@ void	philosopher(t_philo *philo_i)
 		philo_sleep(philo_i, *arg);
 		if (philo_i->num_of_eat == arg->num_to_eat)
 		{
-		//	philo_dead(philo_i, *arg);
-			return ;
-		}//make every thread detached
+			philo_i->state = S_DONE;
+			return (NULL);
+		}
 		if (!philo_think(philo_i, *arg))
 		{
-		//	one_philo_free(philo_i);
-			return ;
-		//make thread mdetach | merged?
+			philo_i->state = S_DEAD;
+			return (NULL);
 		}
 	}
-	philo_error_freeing(philo_i, *arg);
-	return ;
+	return (NULL);
 }

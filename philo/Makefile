@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: siun <siun@student.42.fr>                  +#+  +:+       +#+         #
+#    By: subpark <subpark@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/12/21 16:59:02 by subpark           #+#    #+#              #
-#    Updated: 2024/02/16 16:01:19 by siun             ###   ########.fr        #
+#    Updated: 2024/02/21 18:22:53 by subpark          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,7 +17,7 @@ CCFLAGS = -Wall -Werror -Wextra
 CC = cc -g
 
 SRCS = freeing.c ft_atoi.c ft_itoa.c generate.c init.c philosopher.c\
-		tools.c main.c
+		tools.c threads.c main.c
 
 OBJS = $(SRCS:.c=.o)
 
