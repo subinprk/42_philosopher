@@ -6,7 +6,7 @@
 /*   By: subpark <subpark@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 22:23:45 by siun              #+#    #+#             */
-/*   Updated: 2024/02/21 18:14:46 by subpark          ###   ########.fr       */
+/*   Updated: 2024/02/21 19:35:40 by subpark          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,28 +23,42 @@ void	action_print(t_philo *philo, t_arg arg, char *str)
 int	philo_think(t_philo *philo_i, t_arg arg)
 {
 	action_print(philo_i, arg, "is thinking");
-	if (get_current_time() - philo_i->last_time_eat > arg.time_to_die)
+	while (get_current_time() - philo_i->last_time_eat < arg.time_to_die)
+	{
+		if (get_current_time() - philo_i->last_time_eat > arg.time_to_die)
 		return (0);
+	}
 	return (1);
 }
+//have to think about after thinking, connection to eating.
 
 int	philo_sleep(t_philo *philo_i, t_arg arg)
 {
 	action_print(philo_i, arg, "is sleeping");
-	if (get_current_time() - philo_i->last_time_eat > arg.time_to_die)
+	while (get_current_time() - philo_i->last_time_eat < arg.time_to_die)
+	{
+		philo_i->state - S_SLEEP;
+					printf("\targ.time to sleep %llu\n", arg.time_to_sleep);
+		if (get_current_time() - philo_i->last_time_eat > arg.time_to_sleep)
+		{
+			philo_i->state = S_THINK;
+			return (0);
+		}
 		return (0);
+	}
+	philo_i->state = S_DEAD;
 	usleep(arg.time_to_sleep * 1000);
 	//in case sth detached/should be joined in case sth is sleeping,
 	//also have to think about it
-	return (1);
+	return (0);
 }
 
 int philo_eat(t_philo *philo_i, t_arg arg)
 {
 	pthread_mutex_lock(philo_i->l_chopstick);
-	action_print(philo_i, arg, "has taken a fork");
+	action_print(philo_i, arg, "has taken a left fork");
 	pthread_mutex_lock(philo_i->r_chopstick);
-	action_print(philo_i, arg, "has taken a fork");
+	action_print(philo_i, arg, "has taken a right fork");
 	action_print(philo_i, arg, "is eating");
 	usleep(arg.time_to_eat * 1000);
 	pthread_mutex_unlock(philo_i->l_chopstick);
