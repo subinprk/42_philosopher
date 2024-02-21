@@ -6,7 +6,7 @@
 /*   By: subpark <subpark@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 22:23:45 by siun              #+#    #+#             */
-/*   Updated: 2024/02/21 15:04:20 by subpark          ###   ########.fr       */
+/*   Updated: 2024/02/21 15:17:51 by subpark          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ int philo_eat(t_philo *philo_i, t_arg arg)
 	return (1);
 }
 
-int philosopher(t_philo *philo_i)
+void	philosopher(t_philo *philo_i)
 {
 	int	i;
 	t_arg *arg;
@@ -68,16 +68,17 @@ int philosopher(t_philo *philo_i)
 			if (philo_i->num_of_eat == arg->num_to_eat)
 			{
 			//	philo_dead(philo_i, *arg);
-				return (1);
+				return ;
 			}//make every thread detached
 			if (!philo_think(philo_i, *arg))
 			{
 			//	one_philo_free(philo_i);
-				return (0);//make thread mdetach | merged?
+				return ;
+			//make thread mdetach | merged?
 			}
 		}
 		philo_error_freeing(philo_i, *arg);
 	// 	return (-1);
 	// }
-	return (1);
+	return ;
 }
