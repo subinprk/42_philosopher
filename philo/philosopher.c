@@ -6,7 +6,7 @@
 /*   By: subpark <subpark@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 22:23:45 by siun              #+#    #+#             */
-/*   Updated: 2024/02/21 15:17:51 by subpark          ###   ########.fr       */
+/*   Updated: 2024/02/21 15:26:12 by subpark          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,26 +59,24 @@ void	philosopher(t_philo *philo_i)
 
 	i = 0;
 	arg = philo_i->arg;
-	// while (i < arg->num_of_philo)
-	// {
-		while (1)
+	if (philo_i->index % 2 == 0)
+		usleep(1000);
+	while (1)
+	{
+		philo_eat(philo_i, *arg);
+		philo_sleep(philo_i, *arg);
+		if (philo_i->num_of_eat == arg->num_to_eat)
 		{
-			philo_eat(philo_i, *arg);
-			philo_sleep(philo_i, *arg);
-			if (philo_i->num_of_eat == arg->num_to_eat)
-			{
-			//	philo_dead(philo_i, *arg);
-				return ;
-			}//make every thread detached
-			if (!philo_think(philo_i, *arg))
-			{
-			//	one_philo_free(philo_i);
-				return ;
-			//make thread mdetach | merged?
-			}
+		//	philo_dead(philo_i, *arg);
+			return ;
+		}//make every thread detached
+		if (!philo_think(philo_i, *arg))
+		{
+		//	one_philo_free(philo_i);
+			return ;
+		//make thread mdetach | merged?
 		}
-		philo_error_freeing(philo_i, *arg);
-	// 	return (-1);
-	// }
+	}
+	philo_error_freeing(philo_i, *arg);
 	return ;
 }
