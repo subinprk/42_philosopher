@@ -6,7 +6,7 @@
 /*   By: subpark <subpark@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 16:07:20 by subpark           #+#    #+#             */
-/*   Updated: 2024/02/21 13:59:15 by subpark          ###   ########.fr       */
+/*   Updated: 2024/02/21 14:50:04 by subpark          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ int		ft_strlen(char *str);
 int		init_arg(int argc, char **argv, t_arg *arg);
 int		generate_philo(t_philo **philo, t_arg arg);
 int		generate_chopstick(t_philo **philo, t_arg arg);
-int		philosopher(t_philo **philo);
+int 	philosopher(t_philo *philo_i);
 void	philo_error_freeing(t_philo **philo, t_arg arg);
 void	one_philo_free(t_philo *philo_i);
 void	philo_dead(t_philo **philo, t_arg arg);

@@ -6,7 +6,7 @@
 /*   By: subpark <subpark@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 16:18:03 by subpark           #+#    #+#             */
-/*   Updated: 2024/02/21 14:09:37 by subpark          ###   ########.fr       */
+/*   Updated: 2024/02/21 15:04:48 by subpark          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,5 +27,6 @@ int	main(int argc, char **argv)
 		return (1);
 	if (!thread_create(&philo, arg))
 		return (1);
+//	free(&(arg.print_mu));
 	return (0);
 }

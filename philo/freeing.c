@@ -6,7 +6,7 @@
 /*   By: subpark <subpark@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/16 14:23:15 by siun              #+#    #+#             */
-/*   Updated: 2024/02/21 14:21:23 by subpark          ###   ########.fr       */
+/*   Updated: 2024/02/21 14:50:22 by subpark          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,15 +45,15 @@ void	philo_dead(t_philo **philo, t_arg arg)
 	}
 }
 
-// void	philo_end(t_philo **philo, t_arg arg)
-// {
-// 	int	i;
+void	philo_end(t_philo **philo, t_arg arg)
+{
+	int	i;
 
-// 	i = 0;
-// 	while(i < arg.num_of_philo)
-// 	{
-// //thread detach? join?
-// 		one_philo_free(philo[i]);
-// 		i ++;
-// 	}
-// }
+	i = 0;
+	while(i < arg.num_of_philo)
+	{
+//thread detach? join?
+		one_philo_free(philo[i]);
+		i ++;
+	}
+}

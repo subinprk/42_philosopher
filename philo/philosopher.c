@@ -6,7 +6,7 @@
 /*   By: subpark <subpark@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 22:23:45 by siun              #+#    #+#             */
-/*   Updated: 2024/02/21 14:22:55 by subpark          ###   ########.fr       */
+/*   Updated: 2024/02/21 15:04:20 by subpark          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 void	action_print(t_philo *philo, t_arg arg, char *str)
 {
 	pthread_mutex_lock(&(arg.print_mu));
-	printf("%d %d %s", get_current_time() - philo->start_time
+	printf("%llu %d %s\n", get_current_time() - philo->start_time
 		, philo->index, str);
 	pthread_mutex_unlock(&(arg.print_mu));
 }
@@ -52,31 +52,31 @@ int philo_eat(t_philo *philo_i, t_arg arg)
 	return (1);
 }
 
-int philosopher(t_philo **philo)
+int philosopher(t_philo *philo_i)
 {
 	int	i;
 	t_arg *arg;
 
 	i = 0;
-	*arg = *(philo[0]->arg);
+	arg = philo_i->arg;
 	// while (i < arg->num_of_philo)
 	// {
 		while (1)
 		{
-			philo_eat(philo[i], *arg);
-			philo_sleep(philo[i], *arg);
-			if (philo[i]->num_of_eat == arg->num_to_eat)
+			philo_eat(philo_i, *arg);
+			philo_sleep(philo_i, *arg);
+			if (philo_i->num_of_eat == arg->num_to_eat)
 			{
-				philo_dead(philo, *arg);
+			//	philo_dead(philo_i, *arg);
 				return (1);
-			}//make thread merged
-			if (!philo_think(philo[i], *arg))
+			}//make every thread detached
+			if (!philo_think(philo_i, *arg))
 			{
-				one_philo_free(philo[i]);
+			//	one_philo_free(philo_i);
 				return (0);//make thread mdetach | merged?
 			}
 		}
-		philo_error_freeing(philo, *arg);
+		philo_error_freeing(philo_i, *arg);
 	// 	return (-1);
 	// }
 	return (1);
