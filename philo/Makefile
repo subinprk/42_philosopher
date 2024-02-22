@@ -6,7 +6,7 @@
 #    By: subpark <subpark@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/12/21 16:59:02 by subpark           #+#    #+#              #
-#    Updated: 2024/02/21 18:22:53 by subpark          ###   ########.fr        #
+#    Updated: 2024/02/22 18:25:04 by subpark          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,7 @@ NAME = philo
 
 CCFLAGS = -Wall -Werror -Wextra
 
-CC = cc -g
+CC = cc -g -fsanitize=thread
 
 SRCS = freeing.c ft_atoi.c ft_itoa.c generate.c init.c philosopher.c\
 		tools.c threads.c main.c
