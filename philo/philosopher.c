@@ -6,7 +6,7 @@
 /*   By: subpark <subpark@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 22:23:45 by siun              #+#    #+#             */
-/*   Updated: 2024/02/22 16:14:42 by subpark          ###   ########.fr       */
+/*   Updated: 2024/02/22 16:31:25 by subpark          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,16 +20,16 @@ void	action_print(t_philo *philo, t_arg arg, char *str)
 	pthread_mutex_unlock(arg.print_mu);
 }
 
-int	philo_think(t_philo *philo_i, t_arg arg)
-{
-	action_print(philo_i, arg, "is thinking");
-	while (get_current_time() - philo_i->last_time_eat < arg.time_to_die)
-	{
-		if (get_current_time() - philo_i->last_time_eat > arg.time_to_die)
-		return (0);
-	}
-	return (1);
-}
+// int	philo_think(t_philo *philo_i, t_arg arg)
+// {
+// 	action_print(philo_i, arg, "is thinking");
+// 	while (get_current_time() - philo_i->last_time_eat < arg.time_to_die)
+// 	{
+// 		if (get_current_time() - philo_i->last_time_eat > arg.time_to_die)
+// 		return (0);
+// 	}
+// 	return (1);
+// }
 //have to think about after thinking, connection to eating.
 
 int	philo_sleep(t_philo *philo_i, t_arg arg)
@@ -38,6 +38,7 @@ int	philo_sleep(t_philo *philo_i, t_arg arg)
 	while (get_current_time() - philo_i->last_time_eat < arg.time_to_die)
 	{
 		philo_i->state = S_SLEEP;
+		usleep(arg.time_to_sleep * 1000);
 					printf("\targ.time to sleep %llu\n", arg.time_to_sleep);
 		if (get_current_time() - philo_i->last_time_eat > arg.time_to_sleep)
 		{
@@ -47,7 +48,6 @@ int	philo_sleep(t_philo *philo_i, t_arg arg)
 		return (0);
 	}
 	philo_i->state = S_DEAD;
-	usleep(arg.time_to_sleep * 1000);
 	//in case sth detached/should be joined in case sth is sleeping,
 	//also have to think about it
 	return (0);
@@ -63,7 +63,7 @@ int philo_eat(t_philo *philo_i, t_arg arg)
 	usleep(arg.time_to_eat * 1000);
 	pthread_mutex_unlock(philo_i->l_chopstick);
 	pthread_mutex_unlock(philo_i->r_chopstick);
-	philo_i->last_time_eat = philo_i->last_time_eat + arg.time_to_eat;
+	philo_i->last_time_eat = get_current_time();
 	philo_i->num_of_eat = philo_i->num_of_eat + 1;
 	return (1);
 }
@@ -88,11 +88,11 @@ void	*philosopher(void *tmp_philo)
 			philo_i->state = S_DONE;
 			return (NULL);
 		}
-		if (!philo_think(philo_i, *arg))
-		{
-			philo_i->state = S_DEAD;
-			return (NULL);
-		}
+		// if (!philo_think(philo_i, *arg))
+		// {
+		// 	philo_i->state = S_DEAD;
+		// 	return (NULL);
+		// }
 	}
 	return (NULL);
 }

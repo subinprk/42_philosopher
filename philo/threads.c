@@ -6,7 +6,7 @@
 /*   By: subpark <subpark@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 17:52:50 by subpark           #+#    #+#             */
-/*   Updated: 2024/02/22 15:43:37 by subpark          ###   ########.fr       */
+/*   Updated: 2024/02/22 16:47:55 by subpark          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,22 +15,24 @@
 void	finish_checker(t_philo *philo, t_arg arg)
 {
 	int			i;
-	int			bool_done;
-	int			bool_death;
+	int			bool_all_done;
+	int			bool_one_death;
 
-	bool_done = 1;
-	bool_death = 0;
+	bool_all_done = 1;
+	bool_one_death = 0;
 	while (1)
 	{
 		i = 0;
 		while (i < arg.num_of_philo)
 		{
-			bool_done = bool_done * (philo[i].state == S_DONE);
-			bool_death = bool_death + (philo[i].state == S_DEAD);
+			bool_all_done = bool_all_done * (philo[i].state == S_DONE);
+			bool_one_death = bool_one_death + (philo[i].last_time_eat
+						- get_current_time() > arg.time_to_die);
 			i ++;
 		}
-		if (bool_done || bool_death)
+		if (bool_all_done || bool_one_death)
 			break;
+		usleep(1);
 	}
 	i = 0;
 	while (i < arg.num_of_philo)
