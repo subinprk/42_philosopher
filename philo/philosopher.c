@@ -6,7 +6,7 @@
 /*   By: subpark <subpark@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 22:23:45 by siun              #+#    #+#             */
-/*   Updated: 2024/02/22 15:43:19 by subpark          ###   ########.fr       */
+/*   Updated: 2024/02/22 16:14:42 by subpark          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,10 @@
 
 void	action_print(t_philo *philo, t_arg arg, char *str)
 {
-	pthread_mutex_lock(&(arg.print_mu));
+	pthread_mutex_lock(arg.print_mu);
 	printf("%llu %d %s\n", get_current_time() - philo->start_time
 		, philo->index, str);
-	pthread_mutex_unlock(&(arg.print_mu));
+	pthread_mutex_unlock(arg.print_mu);
 }
 
 int	philo_think(t_philo *philo_i, t_arg arg)
@@ -64,6 +64,7 @@ int philo_eat(t_philo *philo_i, t_arg arg)
 	pthread_mutex_unlock(philo_i->l_chopstick);
 	pthread_mutex_unlock(philo_i->r_chopstick);
 	philo_i->last_time_eat = philo_i->last_time_eat + arg.time_to_eat;
+	philo_i->num_of_eat = philo_i->num_of_eat + 1;
 	return (1);
 }
 

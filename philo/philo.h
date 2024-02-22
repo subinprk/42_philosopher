@@ -6,7 +6,7 @@
 /*   By: subpark <subpark@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 16:07:20 by subpark           #+#    #+#             */
-/*   Updated: 2024/02/22 15:43:48 by subpark          ###   ########.fr       */
+/*   Updated: 2024/02/22 16:08:51 by subpark          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,7 @@
 
 typedef struct s_arg
 {
-	pthread_mutex_t	food;
-	pthread_mutex_t	print_mu;
+	pthread_mutex_t	*print_mu;
 	int				num_of_philo;
 	long long		time_to_die;
 	long long		time_to_eat;

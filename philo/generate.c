@@ -6,7 +6,7 @@
 /*   By: subpark <subpark@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 22:23:35 by siun              #+#    #+#             */
-/*   Updated: 2024/02/21 18:22:11 by subpark          ###   ########.fr       */
+/*   Updated: 2024/02/22 16:07:29 by subpark          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,18 +57,19 @@ int	generate_philo(t_philo **philo, t_arg arg)
 	return (1);
 }
 
-int	generate_print_mu(pthread_mutex_t *print_mu)
+int	generate_print_mu(pthread_mutex_t **print_mu)
 {
-	print_mu = malloc(sizeof(pthread_mutex_t));
-	if (!print_mu)
+	(*print_mu) = malloc(sizeof(pthread_mutex_t));
+	if (!(*print_mu))
 		return (0);
-	if (pthread_mutex_init(print_mu, NULL))
+	if (pthread_mutex_init((*print_mu), NULL))
 		return (0);
 	return (1);
 }
 
 int	init_arg(int argc, char **argv, t_arg *arg)
 {
+	arg->print_mu = NULL;
 	arg->num_of_philo = atoi(argv[1]);
 	arg->time_to_die = atoi(argv[2]);
 	arg->time_to_eat = atoi(argv[3]);
