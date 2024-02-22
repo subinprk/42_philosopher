@@ -6,18 +6,34 @@
 /*   By: subpark <subpark@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 22:23:45 by siun              #+#    #+#             */
-/*   Updated: 2024/02/22 16:31:25 by subpark          ###   ########.fr       */
+/*   Updated: 2024/02/22 18:15:11 by subpark          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
+
+int	ft_strcmp(char *s1, char *s2)
+{
+	int	i;
+
+	i = 0;
+	while (s1[i] || s2[i])
+	{
+		if (s1[i] == s2[i])
+			i ++;
+		else
+			return (s1[i] - s2[i]);
+	}
+	return (0);
+}
 
 void	action_print(t_philo *philo, t_arg arg, char *str)
 {
 	pthread_mutex_lock(arg.print_mu);
 	printf("%llu %d %s\n", get_current_time() - philo->start_time
 		, philo->index, str);
-	pthread_mutex_unlock(arg.print_mu);
+	if (ft_strcmp(str, "is died"))
+		pthread_mutex_unlock(arg.print_mu);
 }
 
 // int	philo_think(t_philo *philo_i, t_arg arg)
@@ -39,7 +55,6 @@ int	philo_sleep(t_philo *philo_i, t_arg arg)
 	{
 		philo_i->state = S_SLEEP;
 		usleep(arg.time_to_sleep * 1000);
-					printf("\targ.time to sleep %llu\n", arg.time_to_sleep);
 		if (get_current_time() - philo_i->last_time_eat > arg.time_to_sleep)
 		{
 			philo_i->state = S_THINK;
