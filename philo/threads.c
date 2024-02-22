@@ -6,33 +6,47 @@
 /*   By: subpark <subpark@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 17:52:50 by subpark           #+#    #+#             */
-/*   Updated: 2024/02/22 16:47:55 by subpark          ###   ########.fr       */
+/*   Updated: 2024/02/22 17:42:20 by subpark          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
+int		eat_goal_checker(t_philo philo_i, t_arg arg)
+{
+	if (philo_i.num_of_eat == arg.num_to_eat)
+		return (1);
+	return (0);
+}
+
+int		dead_checker(t_philo philo_i, t_arg arg)
+{
+	if (get_current_time() - philo_i.last_time_eat >= arg.time_to_die)
+	{
+		action_print(&philo_i, arg, "is died");
+		return (1);
+	}
+	return (0);
+}
+
 void	finish_checker(t_philo *philo, t_arg arg)
 {
 	int			i;
-	int			bool_all_done;
-	int			bool_one_death;
+	int			check_eat_goal;
+	int			check_dead;
 
-	bool_all_done = 1;
-	bool_one_death = 0;
+	check_eat_goal = 0;
+	check_dead = 0;
 	while (1)
 	{
 		i = 0;
-		while (i < arg.num_of_philo)
-		{
-			bool_all_done = bool_all_done * (philo[i].state == S_DONE);
-			bool_one_death = bool_one_death + (philo[i].last_time_eat
-						- get_current_time() > arg.time_to_die);
-			i ++;
-		}
-		if (bool_all_done || bool_one_death)
+		check_eat_goal = eat_goal_checker(philo[i], arg) + check_eat_goal;
+		check_dead = dead_checker(philo[i], arg) + check_dead;
+		if (check_eat_goal == arg.num_of_philo)
 			break;
-		usleep(1);
+		if (check_dead)
+			break;
+		i ++;
 	}
 	i = 0;
 	while (i < arg.num_of_philo)
