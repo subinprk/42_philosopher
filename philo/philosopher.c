@@ -6,7 +6,7 @@
 /*   By: subpark <subpark@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 22:23:45 by siun              #+#    #+#             */
-/*   Updated: 2024/02/22 14:56:14 by subpark          ###   ########.fr       */
+/*   Updated: 2024/02/22 15:43:19 by subpark          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,11 +67,13 @@ int philo_eat(t_philo *philo_i, t_arg arg)
 	return (1);
 }
 
-void	*philosopher(t_philo *philo_i)
+void	*philosopher(void *tmp_philo)
 {
 	int	i;
+	t_philo *philo_i;
 	t_arg *arg;
 
+	philo_i = tmp_philo;
 	i = 0;
 	arg = philo_i->arg;
 	if (philo_i->index % 2 == 0)
