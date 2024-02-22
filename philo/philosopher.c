@@ -6,7 +6,7 @@
 /*   By: subpark <subpark@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 22:23:45 by siun              #+#    #+#             */
-/*   Updated: 2024/02/21 19:35:40 by subpark          ###   ########.fr       */
+/*   Updated: 2024/02/22 14:56:14 by subpark          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ int	philo_sleep(t_philo *philo_i, t_arg arg)
 	action_print(philo_i, arg, "is sleeping");
 	while (get_current_time() - philo_i->last_time_eat < arg.time_to_die)
 	{
-		philo_i->state - S_SLEEP;
+		philo_i->state = S_SLEEP;
 					printf("\targ.time to sleep %llu\n", arg.time_to_sleep);
 		if (get_current_time() - philo_i->last_time_eat > arg.time_to_sleep)
 		{
