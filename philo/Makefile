@@ -6,7 +6,7 @@
 #    By: subpark <subpark@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/12/21 16:59:02 by subpark           #+#    #+#              #
-#    Updated: 2024/02/26 14:27:43 by subpark          ###   ########.fr        #
+#    Updated: 2024/02/26 17:13:10 by subpark          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,7 +16,7 @@ CCFLAGS = -Wall -Werror -Wextra
 
 CC = cc -g -fsanitize=thread
 
-SRCS = freeing.c ft_atoi.c ft_itoa.c generate.c init.c philosopher.c\
+SRCS = ft_atoi.c ft_itoa.c generate.c philosopher.c\
 		tools.c threads.c main.c
 
 OBJS = $(SRCS:.c=.o)

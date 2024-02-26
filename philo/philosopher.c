@@ -6,7 +6,7 @@
 /*   By: subpark <subpark@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 22:23:45 by siun              #+#    #+#             */
-/*   Updated: 2024/02/26 16:27:49 by subpark          ###   ########.fr       */
+/*   Updated: 2024/02/26 17:15:03 by subpark          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,8 +67,8 @@ int philo_eat(t_philo *philo_i, t_arg arg)
 	action_print(philo_i, arg, "has taken a right fork");
 	action_print(philo_i, arg, "is eating");
 	usleep(arg.time_to_eat * 1000);
-	pthread_mutex_unlock(philo_i->l_chopstick);
 	pthread_mutex_unlock(philo_i->r_chopstick);
+	pthread_mutex_unlock(philo_i->l_chopstick);
 	philo_i->last_time_eat = get_current_time();
 	philo_i->num_of_eat = philo_i->num_of_eat + 1;
 	return (1);

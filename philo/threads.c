@@ -6,7 +6,7 @@
 /*   By: subpark <subpark@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 17:52:50 by subpark           #+#    #+#             */
-/*   Updated: 2024/02/26 17:00:16 by subpark          ###   ########.fr       */
+/*   Updated: 2024/02/26 17:13:31 by subpark          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,12 +51,6 @@ void	finish_checker(t_philo *philo, t_arg arg)
 			break;
 		i ++;
 	}
-	// i = 0;
-	// while (i < arg.num_of_philo)
-	// {
-	// 	pthread_join(philo[i].thread, NULL);
-	// 	i ++;
-	// }
 	i = 0;
 	while (i < arg.num_of_philo)
 	{
