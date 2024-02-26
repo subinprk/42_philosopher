@@ -6,7 +6,7 @@
 /*   By: subpark <subpark@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 22:23:45 by siun              #+#    #+#             */
-/*   Updated: 2024/02/26 17:15:03 by subpark          ###   ########.fr       */
+/*   Updated: 2024/02/26 18:05:35 by subpark          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,12 +29,8 @@ int	ft_strcmp(char *s1, char *s2)
 
 void	action_print(t_philo *philo, t_arg arg, char *str)
 {
-	//pthread_mutex_lock(arg.print_mu);
 	printf("%llu %d %s\n", get_current_time() - philo->start_time
 		, philo->index + 1, str);
-	// if (ft_strcmp(str, "is died"))
-
-	//pthread_mutex_unlock(arg.print_mu);
 }
 
 int	philo_sleep(t_philo *philo_i, t_arg arg)
@@ -52,8 +48,6 @@ int	philo_sleep(t_philo *philo_i, t_arg arg)
 		}
 	}
 	philo_i->state = S_DEAD;
-	//in case sth detached/should be joined in case sth is sleeping,
-	//also have to think about it
 	return (0);
 }
 
@@ -66,6 +60,7 @@ int philo_eat(t_philo *philo_i, t_arg arg)
 		return (0);
 	action_print(philo_i, arg, "has taken a right fork");
 	action_print(philo_i, arg, "is eating");
+	philo_i->last_time_eat = get_current_time();
 	usleep(arg.time_to_eat * 1000);
 	pthread_mutex_unlock(philo_i->r_chopstick);
 	pthread_mutex_unlock(philo_i->l_chopstick);
@@ -94,11 +89,6 @@ void	*philosopher(void *tmp_philo)
 		}
 		if (!philo_sleep(philo_i, *arg))
 			break ;
-		// if (philo_i->num_of_eat == arg->num_to_eat)
-		// {
-		// 	philo_i->state = S_DONE;
-		// 	return (NULL);
-		// }
 	}
 	return (NULL);
 }

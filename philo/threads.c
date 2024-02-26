@@ -6,7 +6,7 @@
 /*   By: subpark <subpark@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 17:52:50 by subpark           #+#    #+#             */
-/*   Updated: 2024/02/26 17:13:31 by subpark          ###   ########.fr       */
+/*   Updated: 2024/02/26 18:04:48 by subpark          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ int		dead_checker(t_philo philo_i, t_arg arg)
 	if (get_current_time() - philo_i.last_time_eat >= arg.time_to_die)
 	{
 		philo_i.state = S_DEAD;
+		printf("sth wrong in here, gap btw eat : %lld\t", get_current_time() - philo_i.last_time_eat);
 		action_print(&philo_i, arg, "is died");
 		return (1);
 	}
@@ -42,7 +43,7 @@ void	finish_checker(t_philo *philo, t_arg arg)
 	while (1)
 	{
 		i = i % arg.num_of_philo;
-		usleep(100);
+		usleep(1000);
 		check_dead = dead_checker(philo[i], arg);
 		if (check_dead)
 			break;
