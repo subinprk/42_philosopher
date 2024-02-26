@@ -6,7 +6,7 @@
 /*   By: subpark <subpark@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 22:23:45 by siun              #+#    #+#             */
-/*   Updated: 2024/02/22 18:15:11 by subpark          ###   ########.fr       */
+/*   Updated: 2024/02/26 15:06:34 by subpark          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,11 +29,12 @@ int	ft_strcmp(char *s1, char *s2)
 
 void	action_print(t_philo *philo, t_arg arg, char *str)
 {
-	pthread_mutex_lock(arg.print_mu);
+	//pthread_mutex_lock(arg.print_mu);
 	printf("%llu %d %s\n", get_current_time() - philo->start_time
-		, philo->index, str);
-	if (ft_strcmp(str, "is died"))
-		pthread_mutex_unlock(arg.print_mu);
+		, philo->index + 1, str);
+	// if (ft_strcmp(str, "is died"))
+
+	//pthread_mutex_unlock(arg.print_mu);
 }
 
 // int	philo_think(t_philo *philo_i, t_arg arg)
@@ -93,7 +94,7 @@ void	*philosopher(void *tmp_philo)
 	i = 0;
 	arg = philo_i->arg;
 	if (philo_i->index % 2 == 0)
-		usleep(1000);
+		usleep(10000);
 	while (1)
 	{
 		philo_eat(philo_i, *arg);
@@ -103,11 +104,6 @@ void	*philosopher(void *tmp_philo)
 			philo_i->state = S_DONE;
 			return (NULL);
 		}
-		// if (!philo_think(philo_i, *arg))
-		// {
-		// 	philo_i->state = S_DEAD;
-		// 	return (NULL);
-		// }
 	}
 	return (NULL);
 }

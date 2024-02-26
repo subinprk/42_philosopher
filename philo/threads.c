@@ -6,7 +6,7 @@
 /*   By: subpark <subpark@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 17:52:50 by subpark           #+#    #+#             */
-/*   Updated: 2024/02/22 18:08:48 by subpark          ###   ########.fr       */
+/*   Updated: 2024/02/26 15:06:44 by subpark          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,8 @@ int		eat_goal_checker(t_philo philo_i, t_arg arg)
 
 int		dead_checker(t_philo philo_i, t_arg arg)
 {
-	if (get_current_time() - philo_i.last_time_eat >= arg.time_to_die)
+	if (get_current_time() - philo_i.start_time
+		- philo_i.last_time_eat >= arg.time_to_die)
 	{
 		action_print(&philo_i, arg, "is died");
 		return (1);
@@ -39,6 +40,7 @@ void	finish_checker(t_philo *philo, t_arg arg)
 	check_dead = 0;
 	while (1)
 	{
+		usleep(100);
 		i = 0;
 		check_dead = dead_checker(philo[i], arg);
 		if (check_dead)
