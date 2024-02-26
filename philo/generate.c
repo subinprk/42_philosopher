@@ -6,7 +6,7 @@
 /*   By: subpark <subpark@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 22:23:35 by siun              #+#    #+#             */
-/*   Updated: 2024/02/22 16:07:29 by subpark          ###   ########.fr       */
+/*   Updated: 2024/02/26 17:01:53 by subpark          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ int	generate_philo(t_philo **philo, t_arg arg)
 		(*philo)[i].arg = &arg;
 		(*philo)[i].state = S_GEN;
 		(*philo)[i].start_time = get_current_time();
-		(*philo)[i].last_time_eat = 0;
+		(*philo)[i].last_time_eat = get_current_time();
 		(*philo)[i].index = i;
 		i ++;
 	}
