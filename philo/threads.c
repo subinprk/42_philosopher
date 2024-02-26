@@ -6,30 +6,42 @@
 /*   By: subpark <subpark@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 17:52:50 by subpark           #+#    #+#             */
-/*   Updated: 2024/02/26 18:04:48 by subpark          ###   ########.fr       */
+/*   Updated: 2024/02/26 19:52:44 by subpark          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-int		eat_goal_checker(t_philo philo_i, t_arg arg)
+int	eat_goal_checker(t_philo philo_i, t_arg arg)
 {
 	if (philo_i.num_of_eat == arg.num_to_eat)
 		return (1);
 	return (0);
 }
 
-int		dead_checker(t_philo philo_i, t_arg arg)
+int	dead_checker(t_philo philo_i, t_arg arg)
 {
 	if (get_current_time() - philo_i.last_time_eat >= arg.time_to_die)
 	{
 		philo_i.state = S_DEAD;
-		printf("sth wrong in here, gap btw eat : %lld\t", get_current_time() - philo_i.last_time_eat);
 		action_print(&philo_i, arg, "is died");
 		return (1);
 	}
 	return (0);
 }
+
+// void	freeing_philos(t_philo *philo, t_arg arg)
+// {
+// 	int	i;
+
+// 	i = 0;
+// 	while (i < arg.num_of_philo)
+// 	{
+// 		pthread_detach(philo[i].thread);
+// 		i ++;
+// 	}
+// 	free(philo);
+// }
 
 void	finish_checker(t_philo *philo, t_arg arg)
 {
@@ -68,7 +80,8 @@ int	thread_working(t_philo **philo, t_arg arg)
 	i = 0;
 	while (i < arg.num_of_philo)
 	{
-		if (pthread_create(&(*philo)[i].thread, NULL, &philosopher, &(*philo)[i]))
+		if (pthread_create(&(*philo)[i].thread,
+			NULL, &philosopher, &(*philo)[i]))
 			return (0);
 		i ++;
 	}

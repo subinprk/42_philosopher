@@ -6,7 +6,7 @@
 /*   By: subpark <subpark@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 22:23:45 by siun              #+#    #+#             */
-/*   Updated: 2024/02/26 18:05:35 by subpark          ###   ########.fr       */
+/*   Updated: 2024/02/26 19:54:12 by subpark          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,12 @@ int	ft_strcmp(char *s1, char *s2)
 
 void	action_print(t_philo *philo, t_arg arg, char *str)
 {
-	printf("%llu %d %s\n", get_current_time() - philo->start_time
-		, philo->index + 1, str);
+	pthread_mutex_lock(arg.print_mu);
+	printf("%llu %d %s\n", get_current_time() - philo->start_time,
+		philo->index + 1, str);
+	if (!ft_strcmp(str, "is died"))
+		return ;
+	pthread_mutex_unlock(arg.print_mu);
 }
 
 int	philo_sleep(t_philo *philo_i, t_arg arg)
@@ -51,14 +55,16 @@ int	philo_sleep(t_philo *philo_i, t_arg arg)
 	return (0);
 }
 
-int philo_eat(t_philo *philo_i, t_arg arg)
+int	philo_eat(t_philo *philo_i, t_arg arg)
 {
-	if (pthread_mutex_lock(philo_i->l_chopstick))
+	if (philo_i->index % 2 && pthread_mutex_lock(philo_i->l_chopstick))
 		return (0);
-	action_print(philo_i, arg, "has taken a left fork");
+	action_print(philo_i, arg, "has taken a fork");
 	if (pthread_mutex_lock(philo_i->r_chopstick))
 		return (0);
-	action_print(philo_i, arg, "has taken a right fork");
+	if (!(philo_i->index % 2) && pthread_mutex_lock(philo_i->l_chopstick))
+		return (0);
+	action_print(philo_i, arg, "has taken a fork");
 	action_print(philo_i, arg, "is eating");
 	philo_i->last_time_eat = get_current_time();
 	usleep(arg.time_to_eat * 1000);
@@ -71,9 +77,9 @@ int philo_eat(t_philo *philo_i, t_arg arg)
 
 void	*philosopher(void *tmp_philo)
 {
-	int	i;
-	t_philo *philo_i;
-	t_arg *arg;
+	int		i;
+	t_philo	*philo_i;
+	t_arg	*arg;
 
 	philo_i = tmp_philo;
 	i = 0;
@@ -85,7 +91,7 @@ void	*philosopher(void *tmp_philo)
 		if (!philo_eat(philo_i, *arg))
 		{
 			usleep(1000);
-			continue;
+			continue ;
 		}
 		if (!philo_sleep(philo_i, *arg))
 			break ;
