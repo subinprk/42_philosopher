@@ -6,7 +6,7 @@
 /*   By: subpark <subpark@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 16:18:03 by subpark           #+#    #+#             */
-/*   Updated: 2024/02/27 16:32:16 by subpark          ###   ########.fr       */
+/*   Updated: 2024/02/27 16:48:37 by subpark          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,8 @@ void	freeing_arg(t_philo *philo, t_arg arg)
 	{
 		pthread_mutex_destroy(philo[i].l_chopstick);
 		free(philo[i].l_chopstick);
+		pthread_mutex_destroy(philo[i].state_mu);
+		free(philo[i].state_mu);
 		i ++;
 	}
 	free(philo);

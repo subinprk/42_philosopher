@@ -6,7 +6,7 @@
 /*   By: subpark <subpark@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 22:23:45 by siun              #+#    #+#             */
-/*   Updated: 2024/02/27 16:42:34 by subpark          ###   ########.fr       */
+/*   Updated: 2024/02/27 16:45:27 by subpark          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,8 +84,8 @@ void	*philosopher(void *tmp_philo)
 	arg = philo_i->arg;
 	if (philo_i->index % 2 == 0)
 		usleep(10000);
-	while (!pthread_mutex_lock(philo_i->state_mu) && philo_i->state != S_DEAD
-		&& !pthread_mutex_unlock(philo_i->state_mu))
+	while (/*!pthread_mutex_lock(philo_i->state_mu) && */philo_i->state != S_DEAD
+		/*&& !pthread_mutex_unlock(philo_i->state_mu)*/)
 	{
 		if (!philo_eat(philo_i, *arg))
 		{
