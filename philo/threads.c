@@ -6,7 +6,7 @@
 /*   By: subpark <subpark@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 17:52:50 by subpark           #+#    #+#             */
-/*   Updated: 2024/02/27 16:47:46 by subpark          ###   ########.fr       */
+/*   Updated: 2024/02/27 17:19:30 by subpark          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,9 +61,9 @@ void	finish_checker(t_philo **philo, t_arg arg)
 	i = 0;
 	while (i < arg.num_of_philo)
 	{
-		//pthread_mutex_lock((*philo)[i].state_mu);
-		(*philo)[i ++].state = S_DEAD;
-		//pthread_mutex_unlock((*philo)[i].state_mu);
+		pthread_mutex_lock((*philo)[i].state_mu);
+		(*philo)[i].state = S_DEAD;
+		pthread_mutex_unlock((*philo)[i ++].state_mu);
 	}
 	usleep(1000);
 	i = 0;
