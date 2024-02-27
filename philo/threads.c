@@ -6,17 +6,27 @@
 /*   By: subpark <subpark@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 17:52:50 by subpark           #+#    #+#             */
-/*   Updated: 2024/02/26 19:52:44 by subpark          ###   ########.fr       */
+/*   Updated: 2024/02/27 11:24:16 by subpark          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-int	eat_goal_checker(t_philo philo_i, t_arg arg)
+int	eat_goal_checker(t_philo *philo, t_arg arg)
 {
-	if (philo_i.num_of_eat == arg.num_to_eat)
-		return (1);
-	return (0);
+	int	i;
+
+	i = 0;
+	if (arg.num_to_eat == 0)
+		return (0);
+	while (i < arg.num_of_philo)
+	{
+		printf("num of eat: %d\t", philo[i].num_of_eat);
+		if (!(philo[i].num_of_eat == arg.num_to_eat))
+			return (0);
+		i ++;
+	}
+	return (i);
 }
 
 int	dead_checker(t_philo philo_i, t_arg arg)
@@ -45,22 +55,16 @@ int	dead_checker(t_philo philo_i, t_arg arg)
 
 void	finish_checker(t_philo *philo, t_arg arg)
 {
-	int			i;
-	int			check_eat_goal;
-	int			check_dead;
+	int	i;
 
-	check_eat_goal = 0;
-	check_dead = 0;
 	i = 0;
 	while (1)
 	{
 		i = i % arg.num_of_philo;
 		usleep(1000);
-		check_dead = dead_checker(philo[i], arg);
-		if (check_dead)
+		if (dead_checker(philo[i], arg))
 			break;
-		check_eat_goal = eat_goal_checker(philo[i], arg) + check_eat_goal;
-		if (check_eat_goal == arg.num_of_philo)
+		if (eat_goal_checker(philo, arg))
 			break;
 		i ++;
 	}

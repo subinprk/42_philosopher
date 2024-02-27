@@ -6,7 +6,7 @@
 /*   By: subpark <subpark@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 22:23:35 by siun              #+#    #+#             */
-/*   Updated: 2024/02/26 17:01:53 by subpark          ###   ########.fr       */
+/*   Updated: 2024/02/27 11:15:44 by subpark          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,7 @@ int	generate_philo(t_philo **philo, t_arg arg)
 		(*philo)[i] = (t_philo){0};
 		(*philo)[i].arg = &arg;
 		(*philo)[i].state = S_GEN;
+		(*philo)[i].num_of_eat = 0;
 		(*philo)[i].start_time = get_current_time();
 		(*philo)[i].last_time_eat = get_current_time();
 		(*philo)[i].index = i;
@@ -76,6 +77,8 @@ int	init_arg(int argc, char **argv, t_arg *arg)
 	arg->time_to_sleep = atoi(argv[4]);
 	if (argc == 6)
 		arg->num_to_eat = atoi(argv[5]);
+	else
+		arg->num_to_eat = 0;
 	if (!generate_print_mu(&(arg->print_mu)))
 		return (0);
 	return (1);
