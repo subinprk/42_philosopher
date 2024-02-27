@@ -6,7 +6,7 @@
 /*   By: subpark <subpark@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 17:52:50 by subpark           #+#    #+#             */
-/*   Updated: 2024/02/27 14:43:04 by subpark          ###   ########.fr       */
+/*   Updated: 2024/02/27 15:31:07 by subpark          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,8 @@ int	eat_goal_checker(t_philo *philo, t_arg arg)
 
 int	dead_checker(t_philo philo_i, t_arg arg)
 {
-	if (get_current_time() - philo_i.last_time_eat >= arg.time_to_die)
+	if ((long long)(get_current_time() - philo_i.last_time_eat)
+		>= arg.time_to_die)
 	{
 		philo_i.state = S_DEAD;
 		action_print(&philo_i, arg, "is died");
@@ -39,19 +40,6 @@ int	dead_checker(t_philo philo_i, t_arg arg)
 	}
 	return (0);
 }
-
-// void	freeing_philos(t_philo *philo, t_arg arg)
-// {
-// 	int	i;
-
-// 	i = 0;
-// 	while (i < arg.num_of_philo)
-// 	{
-// 		pthread_detach(philo[i].thread);
-// 		i ++;
-// 	}
-// 	free(philo);
-// }
 
 void	finish_checker(t_philo *philo, t_arg arg)
 {
@@ -75,7 +63,7 @@ void	finish_checker(t_philo *philo, t_arg arg)
 	i = 0;
 	while (i < arg.num_of_philo)
 	{
-		pthread_join(philo[i].thread, NULL);
+		pthread_detach(philo[i].thread);
 		i ++;
 	}
 	return ;

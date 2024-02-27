@@ -6,7 +6,7 @@
 /*   By: subpark <subpark@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 22:23:35 by siun              #+#    #+#             */
-/*   Updated: 2024/02/27 11:15:44 by subpark          ###   ########.fr       */
+/*   Updated: 2024/02/27 15:25:02 by subpark          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 int	generate_chopstick(t_philo **philo, t_arg arg)
 {
 	int				i;
-	pthread_mutex_t	*chopstick;
 
 	i = 0;
 	while (i < arg.num_of_philo)
