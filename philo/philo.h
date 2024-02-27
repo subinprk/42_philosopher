@@ -6,7 +6,7 @@
 /*   By: subpark <subpark@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 16:07:20 by subpark           #+#    #+#             */
-/*   Updated: 2024/02/26 17:13:00 by subpark          ###   ########.fr       */
+/*   Updated: 2024/02/27 14:03:39 by subpark          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,6 @@ typedef struct s_philo
 }	t_philo;
 
 int		ft_atoi(const char *nptr);
-char	*ft_itoa(int n);
 size_t	get_current_time(void);
 int		ft_strlen(char *str);
 int		init_arg(int argc, char **argv, t_arg *arg);

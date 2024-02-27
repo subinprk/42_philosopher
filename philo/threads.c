@@ -6,7 +6,7 @@
 /*   By: subpark <subpark@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 17:52:50 by subpark           #+#    #+#             */
-/*   Updated: 2024/02/27 11:24:16 by subpark          ###   ########.fr       */
+/*   Updated: 2024/02/27 14:04:38 by subpark          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,9 +63,9 @@ void	finish_checker(t_philo *philo, t_arg arg)
 		i = i % arg.num_of_philo;
 		usleep(1000);
 		if (dead_checker(philo[i], arg))
-			break;
+			break ;
 		if (eat_goal_checker(philo, arg))
-			break;
+			break ;
 		i ++;
 	}
 	i = 0;

@@ -6,7 +6,7 @@
 /*   By: subpark <subpark@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 22:23:45 by siun              #+#    #+#             */
-/*   Updated: 2024/02/27 11:35:59 by subpark          ###   ########.fr       */
+/*   Updated: 2024/02/27 14:04:26 by subpark          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,5 @@ void	*philosopher(void *tmp_philo)
 		if (!philo_sleep(philo_i, *arg))
 			break ;
 	}
-	free(philo_i->l_chopstick);
-	free(philo_i);
 	return (NULL);
 }

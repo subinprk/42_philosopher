@@ -6,7 +6,7 @@
 /*   By: subpark <subpark@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 16:18:03 by subpark           #+#    #+#             */
-/*   Updated: 2024/02/27 11:48:10 by subpark          ###   ########.fr       */
+/*   Updated: 2024/02/27 14:04:18 by subpark          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@ void	freeing_arg(t_philo *philo, t_arg arg)
 	while (i < arg.num_of_philo)
 	{
 		free(philo[i].l_chopstick);
-		
 		i ++;
 	}
 	free(philo);
