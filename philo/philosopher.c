@@ -6,7 +6,7 @@
 /*   By: subpark <subpark@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 22:23:45 by siun              #+#    #+#             */
-/*   Updated: 2024/02/27 15:26:57 by subpark          ###   ########.fr       */
+/*   Updated: 2024/02/27 16:42:34 by subpark          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,28 +32,22 @@ void	action_print(t_philo *philo, t_arg arg, char *str)
 	pthread_mutex_lock(arg.print_mu);
 	printf("%llu %d %s\n", get_current_time() - philo->start_time,
 		philo->index + 1, str);
-	if (!ft_strcmp(str, "is died"))
-		return ;
 	pthread_mutex_unlock(arg.print_mu);
 }
 
 int	philo_sleep(t_philo *philo_i, t_arg arg)
 {
 	action_print(philo_i, arg, "is sleeping");
-	while ((long long)(get_current_time() - philo_i->last_time_eat)
-		< arg.time_to_die)
+	while (philo_i->state != S_DEAD)
 	{
-		philo_i->state = S_SLEEP;
 		usleep(1000);
 		if ((long long)(get_current_time() - philo_i->last_time_eat)
 			>= arg.time_to_sleep)
 		{
 			action_print(philo_i, arg, "is thinking");
-			philo_i->state = S_THINK;
 			return (1);
 		}
 	}
-	philo_i->state = S_DEAD;
 	return (0);
 }
 
@@ -69,7 +63,9 @@ int	philo_eat(t_philo *philo_i, t_arg arg)
 	action_print(philo_i, arg, "has taken a fork");
 	action_print(philo_i, arg, "is eating");
 	philo_i->last_time_eat = get_current_time();
-	usleep(arg.time_to_eat * 1000);
+	while (philo_i->state != S_DEAD && (long long)get_current_time()
+			- philo_i->last_time_eat < arg.time_to_eat)
+		usleep(1000);
 	pthread_mutex_unlock(philo_i->r_chopstick);
 	pthread_mutex_unlock(philo_i->l_chopstick);
 	philo_i->last_time_eat = get_current_time();
@@ -88,7 +84,8 @@ void	*philosopher(void *tmp_philo)
 	arg = philo_i->arg;
 	if (philo_i->index % 2 == 0)
 		usleep(10000);
-	while (philo_i->state != S_DEAD)
+	while (!pthread_mutex_lock(philo_i->state_mu) && philo_i->state != S_DEAD
+		&& !pthread_mutex_unlock(philo_i->state_mu))
 	{
 		if (!philo_eat(philo_i, *arg))
 		{
@@ -98,5 +95,6 @@ void	*philosopher(void *tmp_philo)
 		if (!philo_sleep(philo_i, *arg))
 			break ;
 	}
+	//printf("\tphilo %d is dead\n", philo_i->index);
 	return (NULL);
 }

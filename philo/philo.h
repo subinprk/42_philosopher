@@ -6,7 +6,7 @@
 /*   By: subpark <subpark@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 16:07:20 by subpark           #+#    #+#             */
-/*   Updated: 2024/02/27 14:03:39 by subpark          ###   ########.fr       */
+/*   Updated: 2024/02/27 16:06:24 by subpark          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,11 +45,12 @@ typedef struct s_philo
 	pthread_t		thread;
 	pthread_mutex_t	*r_chopstick;
 	pthread_mutex_t	*l_chopstick;
+	pthread_mutex_t	*state_mu;
+	int				state;
 	int				index;
 	long long		start_time;
 	long long		last_time_eat;
 	int				num_of_eat;
-	int				state;
 	t_arg			*arg;
 }	t_philo;
 

@@ -6,7 +6,7 @@
 /*   By: subpark <subpark@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 22:23:35 by siun              #+#    #+#             */
-/*   Updated: 2024/02/27 15:25:02 by subpark          ###   ########.fr       */
+/*   Updated: 2024/02/27 16:06:45 by subpark          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,9 @@ int	generate_philo(t_philo **philo, t_arg arg)
 	{
 		(*philo)[i] = (t_philo){0};
 		(*philo)[i].arg = &arg;
-		(*philo)[i].state = S_GEN;
+		(*philo)[i].state_mu = malloc(sizeof(pthread_mutex_t));
+		pthread_mutex_init((*philo)[i].state_mu, NULL);
+		(*philo)[i].state = 0;
 		(*philo)[i].num_of_eat = 0;
 		(*philo)[i].start_time = get_current_time();
 		(*philo)[i].last_time_eat = get_current_time();
