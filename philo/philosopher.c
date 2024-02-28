@@ -6,7 +6,7 @@
 /*   By: subpark <subpark@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 22:23:45 by siun              #+#    #+#             */
-/*   Updated: 2024/02/27 17:22:09 by subpark          ###   ########.fr       */
+/*   Updated: 2024/02/28 15:34:26 by subpark          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,7 @@ int	philo_sleep(t_philo *philo_i, t_arg arg)
 			return (1);
 		}
 	}
+	pthread_mutex_unlock(philo_i->state_mu);
 	return (0);
 }
 
@@ -64,12 +65,13 @@ int	philo_eat(t_philo *philo_i, t_arg arg)
 	action_print(philo_i, arg, "has taken a fork");
 	action_print(philo_i, arg, "is eating");
 	philo_i->last_time_eat = get_current_time();
-	while (!pthread_mutex_lock(philo_i->state_mu) && philo_i->state != S_DEAD
-		&& !pthread_mutex_unlock(philo_i->state_mu) && (long long)get_current_time()
+	while (/*!pthread_mutex_lock(philo_i->state_mu) && philo_i->state != S_DEAD
+		&& !pthread_mutex_unlock(philo_i->state_mu) &&*/ (long long)get_current_time()
 			- philo_i->last_time_eat < arg.time_to_eat)
 		usleep(1000);
 	pthread_mutex_unlock(philo_i->r_chopstick);
 	pthread_mutex_unlock(philo_i->l_chopstick);
+	//pthread_mutex_unlock(philo_i->state_mu);
 	philo_i->last_time_eat = get_current_time();
 	philo_i->num_of_eat = philo_i->num_of_eat + 1;
 	return (1);
@@ -89,14 +91,14 @@ void	*philosopher(void *tmp_philo)
 	while (!pthread_mutex_lock(philo_i->state_mu) && philo_i->state != S_DEAD
 		&& !pthread_mutex_unlock(philo_i->state_mu))
 	{
-		if (!philo_eat(philo_i, *arg))
+		if (philo_eat(philo_i, *arg))
 		{
-			usleep(1000);
-			continue ;
+			return (NULL);
 		}
-		if (!philo_sleep(philo_i, *arg))
-			break ;
+		if (philo_sleep(philo_i, *arg))
+			return (NULL);
 	}
-	//printf("\tphilo %d is dead\n", philo_i->index);
+	pthread_mutex_unlock(philo_i->state_mu);
+	printf("\tphilo %d is dead\n", philo_i->index);
 	return (NULL);
 }
