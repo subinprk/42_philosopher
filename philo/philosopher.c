@@ -6,7 +6,7 @@
 /*   By: subpark <subpark@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 22:23:45 by siun              #+#    #+#             */
-/*   Updated: 2024/02/28 16:28:03 by subpark          ###   ########.fr       */
+/*   Updated: 2024/02/28 16:29:42 by subpark          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,23 +52,21 @@ int	philo_sleep(t_philo *philo_i, t_arg arg)
 
 int	philo_eat(t_philo *philo_i, t_arg arg)
 {
-	if (philo_i->index % 2 && pthread_mutex_lock(philo_i->l_chopstick))
+	if (alive_checker(philo_i) && philo_i->index % 2 && pthread_mutex_lock(philo_i->l_chopstick))
 		return (0);
 	action_print(philo_i, arg, "has taken a fork");
-	if (pthread_mutex_lock(philo_i->r_chopstick))
+	if (alive_checker(philo_i) && pthread_mutex_lock(philo_i->r_chopstick))
 		return (0);
-	if (!(philo_i->index % 2) && pthread_mutex_lock(philo_i->l_chopstick))
+	if (alive_checker(philo_i) && !(philo_i->index % 2) && pthread_mutex_lock(philo_i->l_chopstick))
 		return (0);
 	action_print(philo_i, arg, "has taken a fork");
 	action_print(philo_i, arg, "is eating");
 	philo_i->last_time_eat = get_current_time();
-	while (/*!pthread_mutex_lock(philo_i->state_mu) && philo_i->state != S_DEAD
-		&& !pthread_mutex_unlock(philo_i->state_mu) &&*/ (long long)get_current_time()
+	while ((long long)get_current_time()
 			- philo_i->last_time_eat < arg.time_to_eat)
 		usleep(1000);
 	pthread_mutex_unlock(philo_i->r_chopstick);
 	pthread_mutex_unlock(philo_i->l_chopstick);
-	//pthread_mutex_unlock(philo_i->state_mu);
 	philo_i->last_time_eat = get_current_time();
 	philo_i->num_of_eat = philo_i->num_of_eat + 1;
 	return (1);
