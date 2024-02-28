@@ -6,7 +6,7 @@
 /*   By: subpark <subpark@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 22:23:45 by siun              #+#    #+#             */
-/*   Updated: 2024/02/28 16:29:42 by subpark          ###   ########.fr       */
+/*   Updated: 2024/02/28 16:31:28 by subpark          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,12 +52,14 @@ int	philo_sleep(t_philo *philo_i, t_arg arg)
 
 int	philo_eat(t_philo *philo_i, t_arg arg)
 {
-	if (alive_checker(philo_i) && philo_i->index % 2 && pthread_mutex_lock(philo_i->l_chopstick))
+	if (alive_checker(philo_i) && philo_i->index % 2
+		&& pthread_mutex_lock(philo_i->l_chopstick))
 		return (0);
 	action_print(philo_i, arg, "has taken a fork");
 	if (alive_checker(philo_i) && pthread_mutex_lock(philo_i->r_chopstick))
 		return (0);
-	if (alive_checker(philo_i) && !(philo_i->index % 2) && pthread_mutex_lock(philo_i->l_chopstick))
+	if (alive_checker(philo_i) && !(philo_i->index % 2)
+		&& pthread_mutex_lock(philo_i->l_chopstick))
 		return (0);
 	action_print(philo_i, arg, "has taken a fork");
 	action_print(philo_i, arg, "is eating");
@@ -92,7 +94,6 @@ void	*philosopher(void *tmp_philo)
 		if (philo_sleep(philo_i, *arg))
 			return (NULL);
 	}
-	//pthread_mutex_unlock(philo_i->state_mu);
 	printf("\tphilo %d is dead\n", philo_i->index);
 	return (NULL);
 }
