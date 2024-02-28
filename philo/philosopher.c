@@ -6,25 +6,22 @@
 /*   By: subpark <subpark@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 22:23:45 by siun              #+#    #+#             */
-/*   Updated: 2024/02/28 15:34:26 by subpark          ###   ########.fr       */
+/*   Updated: 2024/02/28 16:28:03 by subpark          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-int	ft_strcmp(char *s1, char *s2)
+int	alive_checker(t_philo *philo_i)
 {
-	int	i;
-
-	i = 0;
-	while (s1[i] || s2[i])
+	if (!pthread_mutex_lock(philo_i->state_mu) && philo_i->state != S_DEAD
+		&& !pthread_mutex_unlock(philo_i->state_mu))
+		return (1);
+	else
 	{
-		if (s1[i] == s2[i])
-			i ++;
-		else
-			return (s1[i] - s2[i]);
+		pthread_mutex_unlock(philo_i->state_mu);
+		return (0);
 	}
-	return (0);
 }
 
 void	action_print(t_philo *philo, t_arg arg, char *str)
@@ -88,8 +85,7 @@ void	*philosopher(void *tmp_philo)
 	arg = philo_i->arg;
 	if (philo_i->index % 2 == 0)
 		usleep(1000);
-	while (!pthread_mutex_lock(philo_i->state_mu) && philo_i->state != S_DEAD
-		&& !pthread_mutex_unlock(philo_i->state_mu))
+	while (alive_checker(philo_i))
 	{
 		if (philo_eat(philo_i, *arg))
 		{
@@ -98,7 +94,7 @@ void	*philosopher(void *tmp_philo)
 		if (philo_sleep(philo_i, *arg))
 			return (NULL);
 	}
-	pthread_mutex_unlock(philo_i->state_mu);
+	//pthread_mutex_unlock(philo_i->state_mu);
 	printf("\tphilo %d is dead\n", philo_i->index);
 	return (NULL);
 }

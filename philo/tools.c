@@ -6,11 +6,26 @@
 /*   By: subpark <subpark@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 22:32:58 by siun              #+#    #+#             */
-/*   Updated: 2024/02/21 15:38:50 by subpark          ###   ########.fr       */
+/*   Updated: 2024/02/28 16:26:12 by subpark          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
+
+int	ft_strcmp(char *s1, char *s2)
+{
+	int	i;
+
+	i = 0;
+	while (s1[i] || s2[i])
+	{
+		if (s1[i] == s2[i])
+			i ++;
+		else
+			return (s1[i] - s2[i]);
+	}
+	return (0);
+}
 
 int	ft_strlen(char *str)
 {
