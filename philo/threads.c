@@ -6,7 +6,7 @@
 /*   By: siun <siun@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 17:52:50 by subpark           #+#    #+#             */
-/*   Updated: 2024/02/29 15:18:35 by siun             ###   ########.fr       */
+/*   Updated: 2024/02/29 15:32:15 by siun             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,14 +21,14 @@ int	eat_goal_checker(t_philo *philo, t_arg arg)
 		return (0);
 	while (i < arg.num_of_philo)
 	{
-		pthread_mutex_lock(philo->state_mu);
+		//pthread_mutex_lock(philo->state_mu);
 		//printf("num of eat: %d\t", philo[i].num_of_eat);
-		if (!(philo[i].num_of_eat == arg.num_to_eat))
+		if (!pthread_mutex_lock(philo->state_mu) && !(philo[i].num_of_eat == arg.num_to_eat) && !pthread_mutex_unlock(philo->state_mu))
 		{
-			pthread_mutex_unlock(philo->state_mu);
+			//pthread_mutex_unlock(philo->state_mu);
 			return (0);
 		}
-		pthread_mutex_unlock(philo->state_mu);
+		//pthread_mutex_unlock(philo->state_mu);
 		i ++;
 	}
 	return (i);

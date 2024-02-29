@@ -6,7 +6,7 @@
 /*   By: siun <siun@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 22:23:45 by siun              #+#    #+#             */
-/*   Updated: 2024/02/29 15:16:28 by siun             ###   ########.fr       */
+/*   Updated: 2024/02/29 15:37:06 by siun             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,15 +52,15 @@ int	philo_sleep(t_philo *philo_i, t_arg arg)
 
 int	philo_eat(t_philo *philo_i, t_arg arg)
 {
-	if ((!alive_checker(philo_i) || pthread_mutex_lock(philo_i->l_chopstick)
+	if ((philo_i->index % 2) && (!alive_checker(philo_i) || pthread_mutex_lock(philo_i->l_chopstick)
 		|| !action_print(philo_i, arg, "has taken a fork")) /*&& philo_i->index % 2*/)
 		return (0);
 	if (!alive_checker(philo_i) || pthread_mutex_lock(philo_i->r_chopstick)
 		|| !action_print(philo_i, arg, "has taken a fork"))
 		return (0);
-	// if ((!alive_checker(philo_i)
-	// 	|| pthread_mutex_lock(philo_i->l_chopstick) || !action_print(philo_i, arg, "has taken a fork")) && !philo_i->index % 2)
-	// 	return (0);
+	 if ((!philo_i->index % 2) && (!alive_checker(philo_i)
+	 	|| pthread_mutex_lock(philo_i->l_chopstick) || !action_print(philo_i, arg, "has taken a fork")))
+	 	return (0);
 	action_print(philo_i, arg, "is eating");
 	pthread_mutex_lock(philo_i->state_mu);
 		philo_i->last_time_eat = get_current_time();
