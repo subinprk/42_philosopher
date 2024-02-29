@@ -6,7 +6,7 @@
 /*   By: siun <siun@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 22:23:45 by siun              #+#    #+#             */
-/*   Updated: 2024/02/29 15:10:50 by siun             ###   ########.fr       */
+/*   Updated: 2024/02/29 15:16:28 by siun             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,8 +70,10 @@ int	philo_eat(t_philo *philo_i, t_arg arg)
 		usleep(1000);
 	pthread_mutex_unlock(philo_i->r_chopstick);
 	pthread_mutex_unlock(philo_i->l_chopstick);
+	pthread_mutex_lock(philo_i->state_mu);
 	philo_i->last_time_eat = get_current_time();
 	philo_i->num_of_eat = philo_i->num_of_eat + 1;
+	pthread_mutex_unlock(philo_i->state_mu);
 	return (1);
 }
 
@@ -95,6 +97,5 @@ void	*philosopher(void *tmp_philo)
 		if (alive_checker(philo_i) && philo_sleep(philo_i, *arg))
 			return (NULL);
 	}
-	//printf("\tphilo %d is dead\n", philo_i->index + 1);
 	return (NULL);
 }
