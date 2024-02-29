@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   threads.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: subpark <subpark@student.42.fr>            +#+  +:+       +#+        */
+/*   By: siun <siun@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 17:52:50 by subpark           #+#    #+#             */
-/*   Updated: 2024/02/27 17:19:30 by subpark          ###   ########.fr       */
+/*   Updated: 2024/02/29 15:09:30 by siun             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,15 +31,17 @@ int	eat_goal_checker(t_philo *philo, t_arg arg)
 
 int	dead_checker(t_philo philo_i, t_arg arg)
 {
+	pthread_mutex_lock(philo_i.state_mu);
 	if ((long long)(get_current_time() - philo_i.last_time_eat)
 		>= arg.time_to_die)
 	{
-		pthread_mutex_lock(philo_i.state_mu);
+		//pthread_mutex_lock(philo_i.state_mu);
 		philo_i.state = S_DEAD;
 		pthread_mutex_unlock(philo_i.state_mu);
 		action_print(&philo_i, arg, "is died");
 		return (1);
 	}
+	pthread_mutex_unlock(philo_i.state_mu);
 	return (0);
 }
 
