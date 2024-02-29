@@ -6,7 +6,7 @@
 /*   By: siun <siun@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 17:52:50 by subpark           #+#    #+#             */
-/*   Updated: 2024/02/29 15:32:15 by siun             ###   ########.fr       */
+/*   Updated: 2024/02/29 21:27:48 by siun             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,14 +21,13 @@ int	eat_goal_checker(t_philo *philo, t_arg arg)
 		return (0);
 	while (i < arg.num_of_philo)
 	{
-		//pthread_mutex_lock(philo->state_mu);
-		//printf("num of eat: %d\t", philo[i].num_of_eat);
-		if (!pthread_mutex_lock(philo->state_mu) && !(philo[i].num_of_eat == arg.num_to_eat) && !pthread_mutex_unlock(philo->state_mu))
+		pthread_mutex_lock(philo[i].state_mu);
+		if (!(philo[i].num_of_eat == arg.num_to_eat))
 		{
-			//pthread_mutex_unlock(philo->state_mu);
+			pthread_mutex_unlock(philo[i].state_mu);
 			return (0);
 		}
-		//pthread_mutex_unlock(philo->state_mu);
+		pthread_mutex_unlock(philo[i].state_mu);
 		i ++;
 	}
 	return (i);
@@ -36,17 +35,19 @@ int	eat_goal_checker(t_philo *philo, t_arg arg)
 
 int	dead_checker(t_philo philo_i, t_arg arg)
 {
+	long long	hungry_time;
+
 	pthread_mutex_lock(philo_i.state_mu);
-	if ((long long)(get_current_time() - philo_i.last_time_eat)
-		>= arg.time_to_die)
+	hungry_time = (long long)(get_current_time() - philo_i.last_time_eat);
+	pthread_mutex_unlock(philo_i.state_mu);
+	if (hungry_time >= arg.time_to_die)
 	{
-		//pthread_mutex_lock(philo_i.state_mu);
+		pthread_mutex_lock(philo_i.state_mu);
 		philo_i.state = S_DEAD;
 		pthread_mutex_unlock(philo_i.state_mu);
 		action_print(&philo_i, arg, "is died");
 		return (1);
 	}
-	pthread_mutex_unlock(philo_i.state_mu);
 	return (0);
 }
 
