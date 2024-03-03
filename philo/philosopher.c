@@ -6,7 +6,7 @@
 /*   By: subpark <subpark@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 22:23:45 by siun              #+#    #+#             */
-/*   Updated: 2024/03/03 16:14:43 by subpark          ###   ########.fr       */
+/*   Updated: 2024/03/03 17:35:32 by subpark          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,21 +54,27 @@ int	philo_sleep(t_philo *philo_i, t_arg arg)
 
 int	philo_eat(t_philo *philo_i, t_arg arg)
 {
-	if ((philo_i->index % 2) && (pthread_mutex_lock(philo_i->l_chopstick) || !alive_checker(philo_i)
+	if ((philo_i->index % 2) && (pthread_mutex_lock(philo_i->r_chopstick) || !alive_checker(philo_i)
 		|| !action_print(philo_i, arg, "has taken a fork")))
 		{
-			pthread_mutex_unlock(philo_i->l_chopstick);
-			return (0);
-		}
-	if (pthread_mutex_lock(philo_i->r_chopstick) || !alive_checker(philo_i)
-		|| !action_print(philo_i, arg, "has taken a fork"))
-		{
-			if (philo_i->index % 2)
-				pthread_mutex_unlock(philo_i->l_chopstick);
 			pthread_mutex_unlock(philo_i->r_chopstick);
 			return (0);
 		}
-	 if (!(philo_i->index % 2) && (pthread_mutex_lock(philo_i->l_chopstick)
+	else if (pthread_mutex_lock(philo_i->l_chopstick) || !alive_checker(philo_i)
+		|| !action_print(philo_i, arg, "has taken a fork"))
+		{
+			if (philo_i->index % 2)
+				pthread_mutex_unlock(philo_i->r_chopstick);
+			if (philo_i->l_chopstick)
+				pthread_mutex_unlock(philo_i->l_chopstick);
+			return (0);
+		}
+	if (arg.num_of_philo == 1)
+	{
+		pthread_mutex_unlock(philo_i->r_chopstick);
+		return (0);
+	}//extra helgrind error happening after this
+	 if (!(philo_i->index % 2) && (pthread_mutex_lock(philo_i->r_chopstick)
 	 	|| !alive_checker(philo_i) || !action_print(philo_i, arg, "has taken a fork")))
 		{
 			pthread_mutex_unlock(philo_i->r_chopstick);
@@ -79,12 +85,9 @@ int	philo_eat(t_philo *philo_i, t_arg arg)
 	pthread_mutex_lock(philo_i->state_mu);
 		philo_i->last_time_eat = get_current_time();
 	pthread_mutex_unlock(philo_i->state_mu);
-	while (alive_checker(philo_i) && /*!pthread_mutex_lock(philo_i->state_mu) &&*/ (long long)get_current_time()
+	while (alive_checker(philo_i) && (long long)get_current_time()
 			- philo_i->last_time_eat < arg.time_to_eat)
-	{
-	//	pthread_mutex_unlock(philo_i->state_mu);
 		usleep(1000);
-	}
 	pthread_mutex_unlock(philo_i->r_chopstick);
 	pthread_mutex_unlock(philo_i->l_chopstick);
 	pthread_mutex_lock(philo_i->state_mu);
@@ -96,21 +99,17 @@ int	philo_eat(t_philo *philo_i, t_arg arg)
 
 void	*philosopher(void *tmp_philo)
 {
-	//int		i;
 	t_philo	*philo_i;
 	t_arg	*arg;
 
 	philo_i = tmp_philo;
-	//i = 0;
 	arg = philo_i->arg;
 	if (philo_i->index % 2 == 0)
 		usleep(1000);
 	while (alive_checker(philo_i))
 	{
 		if (!philo_eat(philo_i, *arg))
-		{
 			return (NULL);
-		}
 		if (alive_checker(philo_i) && philo_sleep(philo_i, *arg))
 			return (NULL);
 	}
