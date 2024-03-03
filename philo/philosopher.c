@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philosopher.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: siun <siun@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: subpark <subpark@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 22:23:45 by siun              #+#    #+#             */
-/*   Updated: 2024/02/29 21:43:54 by siun             ###   ########.fr       */
+/*   Updated: 2024/03/03 16:14:43 by subpark          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,13 +54,13 @@ int	philo_sleep(t_philo *philo_i, t_arg arg)
 
 int	philo_eat(t_philo *philo_i, t_arg arg)
 {
-	if ((philo_i->index % 2) && (!alive_checker(philo_i) || pthread_mutex_lock(philo_i->l_chopstick)
+	if ((philo_i->index % 2) && (pthread_mutex_lock(philo_i->l_chopstick) || !alive_checker(philo_i)
 		|| !action_print(philo_i, arg, "has taken a fork")))
 		{
 			pthread_mutex_unlock(philo_i->l_chopstick);
 			return (0);
 		}
-	if (!alive_checker(philo_i) || pthread_mutex_lock(philo_i->r_chopstick)
+	if (pthread_mutex_lock(philo_i->r_chopstick) || !alive_checker(philo_i)
 		|| !action_print(philo_i, arg, "has taken a fork"))
 		{
 			if (philo_i->index % 2)
@@ -68,8 +68,8 @@ int	philo_eat(t_philo *philo_i, t_arg arg)
 			pthread_mutex_unlock(philo_i->r_chopstick);
 			return (0);
 		}
-	 if ((!philo_i->index % 2) && (!alive_checker(philo_i)
-	 	|| pthread_mutex_lock(philo_i->l_chopstick) || !action_print(philo_i, arg, "has taken a fork")))
+	 if (!(philo_i->index % 2) && (pthread_mutex_lock(philo_i->l_chopstick)
+	 	|| !alive_checker(philo_i) || !action_print(philo_i, arg, "has taken a fork")))
 		{
 			pthread_mutex_unlock(philo_i->r_chopstick);
 			pthread_mutex_unlock(philo_i->l_chopstick);
@@ -85,7 +85,6 @@ int	philo_eat(t_philo *philo_i, t_arg arg)
 	//	pthread_mutex_unlock(philo_i->state_mu);
 		usleep(1000);
 	}
-	//pthread_mutex_unlock(philo_i->state_mu);
 	pthread_mutex_unlock(philo_i->r_chopstick);
 	pthread_mutex_unlock(philo_i->l_chopstick);
 	pthread_mutex_lock(philo_i->state_mu);
