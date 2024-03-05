@@ -6,7 +6,7 @@
 #    By: subpark <subpark@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/12/21 16:59:02 by subpark           #+#    #+#              #
-#    Updated: 2024/03/03 17:23:30 by subpark          ###   ########.fr        #
+#    Updated: 2024/03/05 14:04:40 by subpark          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,7 +17,7 @@ CFLAGS = -Wall -Werror -Wextra
 CC = cc #-g -fsanitize=thread#-fsanitize=address#
 
 SRCS = ft_atoi.c generate.c philosopher.c\
-		tools.c threads.c main.c
+		chopstick_lock_unlock.c tools.c threads.c main.c
 
 OBJS = $(SRCS:.c=.o)
 

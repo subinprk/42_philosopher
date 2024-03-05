@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: siun <siun@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: subpark <subpark@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 16:07:20 by subpark           #+#    #+#             */
-/*   Updated: 2024/02/29 13:30:17 by siun             ###   ########.fr       */
+/*   Updated: 2024/03/05 11:44:05 by subpark          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,4 +63,7 @@ int		generate_chopstick(t_philo **philo, t_arg arg);
 void	*philosopher(void *tmp_philo);
 int		thread_working(t_philo **philo, t_arg arg);
 int		action_print(t_philo *philo, t_arg arg, char *str);
+int		chopstick_lock_first(t_philo *philo_i, t_arg arg);
+int		chopstick_lock_second(t_philo *philo_i, t_arg arg);
+int		alive_checker(t_philo *philo_i);
 #endif

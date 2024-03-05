@@ -6,7 +6,7 @@
 /*   By: subpark <subpark@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 22:23:45 by siun              #+#    #+#             */
-/*   Updated: 2024/03/05 11:36:21 by subpark          ###   ########.fr       */
+/*   Updated: 2024/03/05 14:04:00 by subpark          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,50 +45,19 @@ int	philo_sleep(t_philo *philo_i, t_arg arg)
 		{
 			pthread_mutex_unlock(philo_i->state_mu);
 			action_print(philo_i, arg, "is thinking");
-			return (1);
+			return (0);
 		}
 		pthread_mutex_unlock(philo_i->state_mu);
 	}
 	return (0);
 }
 
-// int	allocate_fork(t_philo *philo_i, t_arg arg)
-// {
-	
-// }
-
 int	philo_eat(t_philo *philo_i, t_arg arg)
 {
-	if ((philo_i->index % 2) && (pthread_mutex_lock(philo_i->r_chopstick)
-			|| !alive_checker(philo_i)
-			|| !action_print(philo_i, arg, "has taken a fork")))
-	{
-		pthread_mutex_unlock(philo_i->r_chopstick);
+	if (!chopstick_lock_first(philo_i, arg))
 		return (0);
-	}
-	else if (pthread_mutex_lock(philo_i->l_chopstick)
-		|| !alive_checker(philo_i)
-		|| !action_print(philo_i, arg, "has taken a fork"))
-	{
-		if (philo_i->index % 2)
-			pthread_mutex_unlock(philo_i->r_chopstick);
-		if (philo_i->l_chopstick)
-			pthread_mutex_unlock(philo_i->l_chopstick);
+	if (!chopstick_lock_second(philo_i, arg))
 		return (0);
-	}
-	if (arg.num_of_philo == 1)
-	{
-		pthread_mutex_unlock(philo_i->r_chopstick);
-		return (0);
-	}
-	if (!(philo_i->index % 2) && (pthread_mutex_lock(philo_i->r_chopstick)
-			|| !alive_checker(philo_i)
-			|| !action_print(philo_i, arg, "has taken a fork")))
-	{
-		pthread_mutex_unlock(philo_i->r_chopstick);
-		pthread_mutex_unlock(philo_i->l_chopstick);
-		return (0);
-	}
 	action_print(philo_i, arg, "is eating");
 	pthread_mutex_lock(philo_i->state_mu);
 	philo_i->last_time_eat = get_current_time();
@@ -118,7 +87,7 @@ void	*philosopher(void *tmp_philo)
 	{
 		if (!philo_eat(philo_i, *arg))
 			return (NULL);
-		if (alive_checker(philo_i) && philo_sleep(philo_i, *arg))
+		if (philo_sleep(philo_i, *arg))
 			return (NULL);
 	}
 	return (NULL);

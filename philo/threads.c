@@ -6,7 +6,7 @@
 /*   By: subpark <subpark@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 17:52:50 by subpark           #+#    #+#             */
-/*   Updated: 2024/03/05 11:29:45 by subpark          ###   ########.fr       */
+/*   Updated: 2024/03/05 13:21:42 by subpark          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,13 @@ int	eat_goal_checker(t_philo *philo, t_arg arg)
 		return (0);
 	while (i < arg.num_of_philo)
 	{
+		pthread_mutex_lock(philo->state_mu);
 		if (!(philo[i].num_of_eat == arg.num_to_eat))
+		{
+			pthread_mutex_unlock(philo->state_mu);
 			return (0);
+		}
+		pthread_mutex_unlock(philo->state_mu);
 		i ++;
 	}
 	return (i);
@@ -78,12 +83,9 @@ void	finish_checker(t_philo **philo, t_arg arg)
 			pthread_mutex_unlock((*philo)[i].state_mu);
 			break ;
 		}
-		if (eat_goal_checker((*philo), arg))
-		{
-			pthread_mutex_unlock((*philo)[i].state_mu);
-			break ;
-		}
 		pthread_mutex_unlock((*philo)[i].state_mu);
+		if (eat_goal_checker((*philo), arg))
+			break ;
 		i ++;
 	}
 	dead_marking_thread_join(philo, arg);
