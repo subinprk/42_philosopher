@@ -6,7 +6,7 @@
 /*   By: subpark <subpark@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 17:52:50 by subpark           #+#    #+#             */
-/*   Updated: 2024/03/05 16:44:40 by subpark          ###   ########.fr       */
+/*   Updated: 2024/03/05 18:02:50 by subpark          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,17 +19,17 @@ int	eat_goal_checker(t_philo *philo, t_arg arg)
 	i = 0;
 	if (arg.num_to_eat == 0)
 		return (0);
-	pthread_mutex_lock(philo->state_mu);
 	while (i < arg.num_of_philo)
 	{
+		pthread_mutex_lock(philo->state_mu);
 		if (philo[i].num_of_eat < arg.num_to_eat)
 		{
 			pthread_mutex_unlock(philo->state_mu);
 			return (0);
 		}
 		i ++;
+		pthread_mutex_unlock(philo->state_mu);
 	}
-	pthread_mutex_unlock(philo->state_mu);
 	return (1);
 }
 

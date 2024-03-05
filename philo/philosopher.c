@@ -6,7 +6,7 @@
 /*   By: subpark <subpark@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 22:23:45 by siun              #+#    #+#             */
-/*   Updated: 2024/03/05 14:18:17 by subpark          ###   ########.fr       */
+/*   Updated: 2024/03/05 18:29:48 by subpark          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,8 @@ int	philo_sleep(t_philo *philo_i, t_arg arg)
 	{
 		usleep(1000);
 		pthread_mutex_lock(philo_i->state_mu);
-		if ((long long)(get_current_time() - philo_i->last_time_eat)
+		if ((long long)(get_current_time()
+			- philo_i->last_time_eat - arg.time_to_eat)
 			>= arg.time_to_sleep)
 		{
 			pthread_mutex_unlock(philo_i->state_mu);
@@ -62,13 +63,12 @@ int	philo_eat(t_philo *philo_i, t_arg arg)
 	pthread_mutex_lock(philo_i->state_mu);
 	philo_i->last_time_eat = get_current_time();
 	pthread_mutex_unlock(philo_i->state_mu);
-	while (alive_checker(philo_i) && (long long)get_current_time()
+	while ((long long)get_current_time()
 		- philo_i->last_time_eat < arg.time_to_eat)
 		usleep(1000);
 	pthread_mutex_unlock(philo_i->r_chopstick);
 	pthread_mutex_unlock(philo_i->l_chopstick);
 	pthread_mutex_lock(philo_i->state_mu);
-	philo_i->last_time_eat = get_current_time();
 	philo_i->num_of_eat = philo_i->num_of_eat + 1;
 	pthread_mutex_unlock(philo_i->state_mu);
 	return (1);
@@ -87,8 +87,9 @@ void	*philosopher(void *tmp_philo)
 	{
 		if (!philo_eat(philo_i, *arg))
 			return (NULL);
-		if (philo_sleep(philo_i, *arg))
+		if (alive_checker(philo_i) && philo_sleep(philo_i, *arg))
 			return (NULL);
+		usleep(1000);
 	}
 	return (NULL);
 }
