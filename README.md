@@ -1,9 +1,6 @@
 # 🧠 philo — The Dining Philosophers Problem in C (Multithreading)
 
 A concurrent programming project to simulate the classical Dining Philosophers Problem using **POSIX threads (pthreads)** and **mutexes** to prevent data races and ensure safe resource sharing.
-
-![screenshot](./philo_terminal.png)
-
 ---
 
 ## 🪑 Project Summary
