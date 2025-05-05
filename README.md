@@ -3,6 +3,9 @@
 
 A concurrent programming project to simulate the classical Dining Philosophers Problem using **POSIX threads (pthreads)** and **mutexes** to prevent data races and ensure safe resource sharing.
 
+![image](https://github.com/user-attachments/assets/67826ead-4d4e-4ff8-93ee-ca3226673dc8)
+
+
 ## 🪑 Project Summary
 
 This project is a part of the 42 School curriculum. It focuses on implementing a low-level thread-based simulation where multiple philosophers (threads) compete for shared resources (forks), requiring careful synchronization.
